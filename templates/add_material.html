@@ -1,0 +1,41 @@
+{% extends "template.html" %}
+
+{% block title %}
+    Добавить материал
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+                <legend style="text-align: center">Добавить материал</legend>
+                <div class="mb-3">
+                    {{ form.title.label(class="form-label") }}*
+                    {{ form.title(class="form-control") }}
+                    {% for error in form.title.errors %}
+                        <div class="alert alert-danger" role="alert">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="mb-3">
+                    {{ form.text.label(class="form-label") }}*
+                    {{ form.text(class="form-control") }}
+                    {% for error in form.text.errors %}
+                        <div class="alert alert-danger" role="alert">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="mb-3 form-check">
+                    {{ form.exclusive(class="form-check-input") }}
+                    {{ form.exclusive.label(class="form-check-label") }}
+                    {% for error in form.exclusive.errors %}
+                        <div class="alert alert-danger" role="alert">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="form-text" style="text-align: right">* — Обязательные поля</div>
+                <div>
+                    {{ form.publish(type="submit", class="btn btn-success") }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

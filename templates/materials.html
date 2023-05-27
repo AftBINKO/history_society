@@ -1,0 +1,48 @@
+{% extends "template.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <div class="card text-center">
+        <div class="container">
+            <h1>Материалы для {{ title }}</h1>
+        </div>
+        <div class="container" style="margin-top: 100px">
+            {% if current_user.status >= 3 %}
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for("add_material", exam=exam, subject=subject) }}" class="btn btn-dark"
+                       type="button">
+                        Добавить материал
+                    </a>
+                </div>
+            {% endif %}
+
+            {% for material in materials %}
+                <div class="container" style="margin-top: 25px">
+                    <div class="card-header">
+                        {% if material.exclusive %}
+                            Эксклюзивный материал
+                        {% else %}
+                            Материал
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ material.title }}</h5>
+                        <p class="card-text">{{ material.text }}</p>
+                        {% if current_user.status >= 3 %}
+                            <a href="{{ url_for("delete_material", exam=exam, subject=subject, material_id=material.id) }}"
+                               class="btn btn-danger">
+                                Удалить материал
+                            </a>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer text-body-secondary">
+                        {{ material.date_publish.strftime("%d.%m.%Y %H:%M") }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

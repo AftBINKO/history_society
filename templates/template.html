@@ -31,6 +31,55 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{{ url_for("contact") }}">Связаться со мной</a>
                     </li>
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                ОГЭ
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{{ url_for("materials", exam="oge", subject="society") }}">
+                                        Обществознание
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{{ url_for("materials", exam="oge", subject="history") }}">
+                                        История
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                ЕГЭ
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{{ url_for("materials", exam="ege", subject="society") }}">
+                                        Обществознание
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{{ url_for("materials", exam="ege", subject="history") }}">
+                                        История
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        {% if current_user.status >= 3 %}
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{{ url_for("students") }}">
+                                    Ученики
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
                 </ul>
                 {% if current_user.is_authenticated %}
                     <ul class="navbar-nav">

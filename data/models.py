@@ -1,3 +1,6 @@
+from datetime import datetime
+from pytz import timezone
+
 from sqlalchemy import Column, String, Integer, Boolean, Text, ForeignKey, orm, DateTime
 from sqlalchemy_serializer import SerializerMixin
 
@@ -9,7 +12,7 @@ from .db_session import SqlAlchemyBase
 class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ()
+    serialize_rules = ("-st",)
 
     id = Column(Integer, primary_key=True, autoincrement=True)
 
@@ -18,7 +21,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     login = Column(String, unique=True, nullable=False)
     hashed_password = Column(String, nullable=False)
 
-    status = Column(String, ForeignKey("statuses.id"), nullable=False, default=1)
+    status = Column(Integer, ForeignKey("statuses.id"), nullable=False, default=1)
     st = orm.relationship('Status')
 
     def __repr__(self):
@@ -37,6 +40,8 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
 class Status(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'statuses'
 
+    serialize_rules = ("-user",)
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String, nullable=False)
 
@@ -44,6 +49,27 @@ class Status(SqlAlchemyBase, SerializerMixin):
 
     def __repr__(self):
         return f"<Status {self.title}>"
+
+    def get_columns(self):
+        return [column.key for column in self.__table__.columns]
+
+
+class Material(SqlAlchemyBase, SerializerMixin):
+    __tablename__ = 'materials'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String, nullable=False)
+    text = Column(Text, nullable=False)
+
+    exclusive = Column(Boolean, nullable=False, default=False)
+
+    date_publish = Column(DateTime, nullable=False, default=datetime.now().astimezone(timezone("Europe/Moscow")))
+
+    exam = Column(String, nullable=False)
+    subject = Column(String, nullable=False)
+
+    def __repr__(self):
+        return f"<Material {self.title}>"
 
     def get_columns(self):
         return [column.key for column in self.__table__.columns]
