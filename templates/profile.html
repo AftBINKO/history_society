@@ -1,0 +1,23 @@
+{% extends "template.html" %}
+
+{% block title %}
+    Профиль
+{% endblock %}
+
+{% block content %}
+    <div class="container" style="margin-top: 25px">
+        <h1 style="text-align: center">Профиль</h1>
+    </div>
+    <div class="container" style="margin-top: 25px">
+        <h2 style="text-align: center">
+            {{ current_user.fullname }}
+        </h2>
+        <p style="text-align: center;">
+            {{ status.title }}
+        </p>
+    </div>
+    <div class="container" style="margin-top: 25px">
+        <p class="fs-3" style="text-align: center">Логин: {{ current_user.login }}</p>
+        <p class="fs-3" style="text-align: center">ID: {{ current_user.id }}</p>
+    </div>
+{% endblock %}

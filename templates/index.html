@@ -44,7 +44,15 @@
                         <h5 class="card-title">Бесплатная основа</h5>
                         <p class="card-text">Даю задания, советы по решению КИМов, готовлю на проходной балл, материалы
                             поставляются онлайн каждому.</p>
-                        <a href="#" class="btn btn-success">Зарегистрироваться бесплатно</a>
+                        {% if current_user.is_authenticated %}
+                            <a class="btn btn-success disabled" aria-disabled="true">
+                                Зарегистрироваться бесплатно
+                            </a>
+                        {% else %}
+                            <a href="{{ url_for("register") }}" class="btn btn-success">
+                                Зарегистрироваться бесплатно
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -61,9 +69,16 @@
         </div>
         <div class="container" style="margin-top: 100px">
             <h3 style="text-align: center">Хочешь готовиться вместе со мной?</h3>
-            <p>Тогда я рада буду видеть тебя на платформе! <a href="">Зарегистрируйся</a> на сайте и уже сейчас
-                получай бесплатные материалы, а если хочешь большего, <a href="{{ url_for("contact") }}">свяжись со
-                    мной</a> для покупки курсов.</p>
+            <p>
+                Тогда я рада буду видеть тебя на платформе!
+                {% if current_user.is_authenticated %}
+                    Зарегистрируйся
+                {% else %}
+                    <a href="{{ url_for("register") }}">Зарегистрируйся</a>
+                {% endif %}
+                на сайте и уже сейчас получай бесплатные материалы, а если хочешь большего,
+                <a href="{{ url_for("contact") }}">свяжись со мной</a> для покупки курсов.
+            </p>
         </div>
     </div>
 {% endblock %}
