@@ -1,4 +1,6 @@
-from flask import Flask, render_template, redirect, url_for, abort
+from os import path
+
+from flask import Flask, render_template, redirect, url_for, abort, current_app, send_from_directory
 from flask_login import LoginManager, current_user, login_user, login_required, logout_user
 
 from string import ascii_letters, punctuation, digits
@@ -31,6 +33,16 @@ def load_user(user_id):
 def logout():
     logout_user()
     return redirect(url_for("login"))
+
+
+@app.route('/download_db', methods=['GET', 'POST'])
+@login_required
+def download_db():
+    if current_user.status < 4:
+        abort(403)
+
+    uploads = path.join(current_app.root_path, "db/")
+    return send_from_directory(directory=uploads, path="data.db")
 
 
 @app.route('/register', methods=['GET', 'POST'])
